@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Net;
+using System.Text;
+using Microsoft.AspNetCore.Html;
 
 namespace Shop_Bridge.Controllers
 {
@@ -33,7 +36,48 @@ namespace Shop_Bridge.Controllers
             }
 
             return item;
+
+
         }
+
+        //////[HttpGet("product/{id: length(24)}")]
+        //////public ContentResult GetHtml()
+        //////{
+        //////    string code = "";
+        //////    code += "<!DOCTYPE html>";
+        //////    code += "<html>";
+        //////    code += "<head>";
+        //////    code += "  <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">";
+        //////    code += " <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">";
+        //////    code += "    <link href=\"css/StyleSheet.css\" rel=\"stylesheet\">";
+        //////    code += "  <title>Product Page</title>";
+        //////    code += "</head>";
+        //////    code += "<body>";
+        //////    code += "  <div class='container'>";
+        //////    code += "<div class=\"card mb-3\">";
+        //////    //code += "  <img src=\"data:image/jpg;base64," + item.ImageBase64 + "\" class=\"card-img-top\" alt=\"...\">";
+        //////    code += "  <div class=\"card-body\">";
+        //////    //code += "    <h5 class=\"card-title\">" + item.ItemName + "</h5>";
+        //////   // code += "    <p class=\"card-text\">" + item.About + "</p>";
+        //////    //code += "    <p class=\"card-text\"><small class=\"text-muted\">" + item.Price + "</small></p>";
+        //////    code += "  </div>";
+        //////    code += "</div>";
+        //////    code += "</div>";
+        //////    code += " &lt;script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\" integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\" crossorigin=\"anonymous\">&lt;/script&gt;";
+        //////    code += "    &lt;script>window.jQuery || document.write('&lt;script src=\"js/jquery-slim.min.js\"><\\/script>')&lt;/script&gt;";
+        //////    code += "    &lt;script src=\"js/popper.min.js\">&lt;/script&gt;";
+        //////    code += "    &lt;script src=\"js/bootstrap.min.js\">&lt;/script&gt;";
+        //////    code += "    &lt;script src=\"js/holder.min.js\">&lt;/script&gt;";
+        //////    code += "</body>";
+        //////    code += "</html>";
+
+        //////    return new ContentResult
+        //////    {
+        //////        ContentType = "text/html",
+        //////        StatusCode = (int)HttpStatusCode.OK,
+        //////        Content = code
+        //////    };
+        //////}
 
         [HttpPost]
         public ActionResult<Item> Create([FromForm] Uploader Data)
@@ -92,19 +136,38 @@ namespace Shop_Bridge.Controllers
 
 
         [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Item itemIn)
+        public IActionResult Update([FromForm] Uploader Data)
         {
-            var item = _itemService.Get(id);
+            var item = _itemService.Get(Data.Id);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            _itemService.Update(id, itemIn);
+
+            item.About = Data.About;
+            item.ItemName = Data.ItemName;
+            item.Price = Data.Price;
+
+            string s;
+            using (var ms = new MemoryStream())
+            {
+                Data.ImageFile.CopyTo(ms);
+                var fileBytes = ms.ToArray();
+                //s = fileBytes;
+                s = Convert.ToBase64String(fileBytes);
+
+            }
+            item.ImageBase64 = s;
+
+            
+            _itemService.Update(Data.Id, item);
 
             return NoContent();
         }
+
+        //string id,Item itemIn
 
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)

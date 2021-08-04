@@ -2,11 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <StartupObject>Shop_Bridge.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\WeatherForecastController.cs" />
     <Compile Remove="WeatherForecast.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\Index.cshtml" />
+    <Content Remove="wwwroot\Index.cshtml.cs" />
+    <Content Remove="wwwroot\js\bootstrap-4.0.0 %281%29.zip" />
   </ItemGroup>
 
   <ItemGroup>

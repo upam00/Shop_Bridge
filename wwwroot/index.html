@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>To-do CRUD</title>
-    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="css/StyleSheet.css" />
 </head>
 <body>
     <h1>To-do CRUD</h1>
@@ -18,11 +18,14 @@
 
     <div id="editForm">
         <h3>Edit</h3>
-        <form action="javascript:void(0);" onsubmit="updateItem()">
-            <input type="hidden" id="edit-id">
-            <input type="checkbox" id="edit-isComplete">
-            <input type="text" id="edit-name">
-            <input type="submit" value="Save">
+        <form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
+            <input type="hidden" id="edit-ID"  typeof="disabled">
+            <input type="text" id="edit-ItemName" placeholder="Name">
+            <input type="text" id="edit-About" placeholder="About">
+            <input type="number" id="edit-Price" placeholder="100.24">
+            <image id="edit-Image" Name="Old Image"></image>
+            <input type="file" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
+            <input type="submit" value="Save Changes">
             <a onclick="closeInput()" aria-label="Close">&#10006;</a>
         </form>
     </div>
@@ -40,7 +43,7 @@
     </table>
 
     <script src="js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" >
         getItems();
     </script>
 </body>
