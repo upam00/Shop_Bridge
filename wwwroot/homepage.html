@@ -14,6 +14,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/StyleSheet.css" rel="stylesheet">
+
+    
 </head>
 
 <body>
@@ -23,44 +25,83 @@
 
     <main role="main">
 
-        <section class="jumbotron text-center">
-            <div class="container">
-                <h1 class="jumbotron-heading">Shop Bridge</h1>
-                <p class="lead text-muted">A simple CRUD application with Asp.Net Core, MongoDB Atlas and Bootstrap Front End.</p>
-                <p>
-                    <a href="#" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal" data-id="NoId" data-ItemName="Name" data-Price=200 data-About="About Item">Add Item</a>
-                    <!--<a href="#" class="btn btn-secondary my-2">Secondary action</a>-->
-                </p>
-            </div>
-        </section>
+        <section class="text-center">
+          
 
+            <h1 class="jumbotron-heading">Shop Bridge</h1>
+            <p class="lead text-muted">A simple CRUD application with Asp.Net Core, MongoDB Atlas and Bootstrap Front End.</p>
+            <p>
+                <a href="#" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal" data-id="NoId" data-ItemName="Name" data-Price=200 data-About="About Item">Add Item</a>
+                <!--<a href="#" class="btn btn-secondary my-2">Secondary action</a>-->
+            </p>
+
+        </section>
+        
         <div class="album py-5 bg-light">
             <div class="container">
+                <!--<div class="ids-roller"></div>-->
 
                 <div class="row" id="ItemList">
-                    <div class="col-md-12">
-                        <h1 class="text-center">Loading Items...</h1>
+                    <div class="col-md-12 text-center">
+                        <h5 class="text-center">Loading Items...</h5>
+                        <div class="spinner-border"></div>
+
+                        <!--<button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>-->
+
                     </div>
+                    <!--<div class="spinner-border col-md-5" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>-->
+                    <!--<div class="spinner" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>-->
 
-                    <!--<div class="col-md-4">
-                        <div class="card mb-4 box-shadow">
-                            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                            <div class="card-body">
-                                <p class="card-text" id="ItemName">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                    </div>
-                                    <small class="text-muted">9 mins</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
 
+                </div>
+
+
+
+                <!--<div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text" id="ItemName">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
                 </div>
             </div>
         </div>
+    </div>-->
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item">
+                        <button class="btn btn-sm btn-outline-primary" href="#" onclick="first()">First</button></li>
+                        <li class="page-item">
+                            <button class="btn btn-sm btn-outline-primary" href="#" onclick="previous()" aria-label="Previous">
+                            Previous   
+                            </button>
+                        </li>
+                        <li class="page-item">
+                            <Button class="btn btn-sm btn-outline-primary" href="#" onclick="next()" aria-label="Next">
+                            Next
+                            </Button>
+                        </li>
+                         <li class="page-item">
+                        <button  onclick="last()" class="btn btn-sm btn-outline-primary" href="#">Last</button></li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+       
 
     </main>
     <!--------Modal------------------>
@@ -155,6 +196,11 @@
                         </div>
                     </div>
 
+                    
+                    <p id="first" hidden="hidden"></p>
+                    <p id="previous" hidden="hidden"></p>
+                    <p id="next" hidden="hidden"></p>
+                    <p id="last" hidden="hidden"></p>    
                     <p id="counter"></p>
 
                     <!----------Previous form---------------->
@@ -201,8 +247,10 @@
 
 
                     //-------------------------//-->
-
-                    <footer class="text-muted">
+                  
+                    
+                   
+                    <footer class="text-sm-center">
                         <div class="container">
                             <p class="float-right">
                                 <a href="#">Back to top</a>
@@ -225,7 +273,7 @@
                     <script src="js/holder.min.js"></script>
                     <script src="js/site.js" asp-append-version="true"></script>
                     <script type="text/javascript">
-                        getItems();
+                        getItems("1");
                     </script>
                     <script>
                         $('#exampleModal').on('show.bs.modal', function (event) {
@@ -279,6 +327,23 @@
 
 
                         })
+
+                        function first() {
+                            var page = document.getElementById("first").innerText;
+                            getItems(page);
+                        }
+                        function next() {
+                            var page = document.getElementById("next").innerText;
+                            getItems(page);
+                        }
+                        function previous() {
+                            var page = document.getElementById("previous").innerText;
+                            getItems(page);
+                        }
+                        function last() {
+                            var page = document.getElementById("last").innerText;
+                            getItems(page);
+                        }
 
 
                     </script>

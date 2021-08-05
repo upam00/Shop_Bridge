@@ -1,8 +1,17 @@
 ﻿const uri = 'api/items';
 let todos = [];
 
-function getItems() {
-    fetch(uri)
+function getCurrentPage() {
+    var str = document.getElementById("previous").innerText;
+    var prv = parseInt(str);
+    if (prv != 1)
+        prv = prv + 1
+
+    return prv.toString();
+}
+
+function getItems(page) {
+    fetch(uri+"/SSP?page="+page)
         .then(response => response.json())
         .then(data => _displayItems(data))
         .catch(error => console.error('Unable to get items.', error));
@@ -33,9 +42,10 @@ function addItem() {
     fetch(uri, requestOptions)
         .then(response => response.json())
         .then(() => {
-            getItems();
+            //str = getCurrentPage();
+            getItems("1");
             console.log("Post complete")
-            document.getElementById('addForm').reset();
+            //document.getElementById('addForm').reset();
             //clear form
         })
         .catch(error => console.error('Unable to add item.', error));
@@ -45,7 +55,7 @@ function deleteItem(id) {
     fetch(`${uri}/${id}`, {
         method: 'DELETE'
     })
-        .then(() => { console.log("Deleted"); getItems() } )
+        .then(() => {console.log("Deleted"); str = getCurrentPage(); getItems(str);} )
         .catch(error => console.error('Unable to delete item.', error));
 }
 
@@ -94,7 +104,8 @@ function updateItem() {
         fetch(uri, requestOptions)
             .then(response => response.json())
             .then(() => {
-                getItems();
+                var str = getCurrentPage();
+                getItems("1");
                 console.log("Post complete")
                 //document.getElementById('addForm').reset();
                 //clear form
@@ -114,7 +125,8 @@ function updateItem() {
         //.then(response => response.json())
         fetch(uri + "/" + Id, requestOptions)
             .then(() => {
-                getItems();
+                var str = getCurrentPage();
+                getItems(str);
                 console.log("Updated")
                 document.getElementById('edit-form').reset();
                 //document.getElementById('edit-Image').removeAttribute('src')
@@ -163,12 +175,17 @@ function _displayItems(data) {
     const tBody = document.getElementById('ItemList');
     tBody.innerHTML = '';
 
-    console.log(data)
-    _displayCount(data.length);
+    // console.log(data)
+    //_displayCount(data.total);
 
     const button = document.createElement('button');
 
-    data.forEach(item => {
+    if (data.data == null)
+        myData=data
+    else
+        myData = data.data;
+
+    myData.forEach(item => {
         //console.log(item)
         //let isCompleteCheckbox = document.createElement('input');
         //isCompleteCheckbox.type = 'checkbox';
@@ -266,5 +283,42 @@ function _displayItems(data) {
 
     });
 
-    todos = data;
+    if (data.data != null) {
+        document.getElementById('first').innerText = "1";
+        if (data.page > 1)
+            document.getElementById('previous').innerText = data.page - 1;
+        else
+            document.getElementById('previous').innerText = 1;
+
+        if (data.page < data.last_page + 1)
+            document.getElementById('next').innerText = data.page + 1;
+        else
+            document.getElementById('next').innerText = data.page;
+
+        document.getElementById('last').innerText = data.last_page + 1;
+    }
+
+    //console.log(data.page)
+    //console.log(data.last_page)
+
+    //var previous = document.getElementById("previous")
+    //if (data.page > 1)
+    //    previous.addEventListener("click", function () { getItems(data.page - 1) })
+    //else
+    //    previous.addEventListener("click", function () { getItems("1") })
+
+
+
+    //var next = document.getElementById("next")
+    //next.addEventListener("click", function () { console.log("invoked"); getItems(data.page+1) })
+
+    //var last = document.getElementById("last")
+    //last.addEventListener("click", function () { getItems(data.last_page) })
+
+    //var first = document.getElementById("first")
+    //first.addEventListener("click", function () { getItems("1") })
+
+
+
+    todos = myData;
 }

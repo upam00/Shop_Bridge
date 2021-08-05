@@ -55,7 +55,8 @@ namespace Shop_Bridge.Services
                          Builders<Item>.Filter.Regex("Description", new BsonRegularExpression(s, "i"));
             }
 
-            var find = _items.Find(filter);
+            var find = _items.Find(filter).SortByDescending(p=>p.Id);
+
 
             if (sort == "asc")
             {

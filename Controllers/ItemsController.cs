@@ -42,6 +42,8 @@ namespace Shop_Bridge.Controllers
 
         }
 
+
+        //----------------------//
         [HttpGet("product/{id:length(24)}")]
         public HttpResponseMessage GetHtml()
         {
@@ -86,6 +88,8 @@ namespace Shop_Bridge.Controllers
             string _result = "<b>Return HTML content using Web API method </b>";
             return _result;
         }
+
+        //-------------------------//
 
         [HttpPost]
         public ActionResult<Item> Create([FromForm] Uploader Data)
