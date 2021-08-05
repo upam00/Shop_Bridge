@@ -30,8 +30,24 @@ using Bogus.
 # Preview 
 <p align="center">
   <img src="refresh_preview.gif" alt="animated" width="500" height="350"/> 
-  <img src="crud_preview.gif" alt="animated" width="500" height="350"/> Refresh/Load and CRUD Preview
+ 
 </p>
+<p align="center">
+ Refresh/Load
+</p>
+
+ 
+<p align="center">
+  <img src="crud_preview.gif" alt="animated" width="500" height="350"/> 
+ </p>
+
+<p align="center">
+CRUD 
+</p>
+
+
+
+
 
 
 # Versions
