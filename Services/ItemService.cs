@@ -21,7 +21,9 @@ namespace Shop_Bridge.Services
         }
 
         public List<Item> Get() =>
-            _items.Find(item => true).ToList();
+            _items.Find(item => true).SortByDescending(item => item.Id).ToList();
+            //_items.Find().sort( { 'timestamp': -1 } ).limit(10);
+            //_items.Find(item=>true).Sort({'_id': -1}).ToList();
 
         public Item Get(string id) =>
             _items.Find<Item>(item => item.Id == id).FirstOrDefault();
@@ -29,6 +31,7 @@ namespace Shop_Bridge.Services
         public Item Create(Item item)
         {
             _items.InsertOne(item);
+            //_items.InsertOne.
             return item;
         }
 

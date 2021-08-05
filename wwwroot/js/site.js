@@ -224,17 +224,21 @@ function _displayItems(data) {
         var code = "";
         //code += "                    <div>";
         code += "                        <div class=\"card mb-4 box-shadow\">";
-        code += "                            <img class=\"card-img-top\" src=\"data:image/jpg;base64," + item.imageBase64+ "\" alt=\"Card image cap\">";
-        code += "                            <div class=\"card-body\">";
-        code += "                                <h2 class=\"card-text\" id=\"ItemName\">" + item.itemName + "</h2>";
-        code += "                                 <p class=\"card-text\" >" + item.about+"</p>"                      
+        code += "                            <img class=\"card-img-center\" src=\"data:image/jpg;base64," + item.imageBase64+ "\" alt=\"Card image cap\">";
+        code += "                            <div class=\"card-body text-center\">";
+        code += "                                <h4 class=\"card-text\" id=\"ItemName\">" +"Name : "+ item.itemName + "</h4>";
+        //code += "                                 <h3 class=\"card-text\" >" + item.price+"</h3>"                      
         code += "                                <div class=\"d-flex justify-content-between align-items-center\">";
         //code += "                                    <div class=\"btn-group\">";
-        code += "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#exampleModal\" data-id=\"" + ID + "\" data-ItemName=\"" + item.itemName + "\" data-About=\"" + item.about + "\" data-Price=\"" + item.price + "\"> Update</button > ";
-        code += "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-danger\" id=\"del-" + ID+ "\">Delete</button>";
+        code += "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-primary\" data-toggle=\"modal\" data-target=\"#exampleModal\" data-id=\"" + ID + "\" data-itemname=\"" + item.itemName + "\" data-about=\"" + item.about + "\" data-price=\"" + item.price + "\"> Update</button > ";
+        code += "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-secondary\" data-toggle=\"modal\" data-target=\"#exampleModal2\" data-id=\"" + ID + "\" data-itemname=\"" + item.itemName + "\" data-about=\"" + item.about + "\" data-price=\"" + item.price + "\" data-image64=\"" + item.imageBase64 + "\" > View</button > ";
+        code += "                                        <button type=\"button\" class=\"btn btn-sm btn-outline-danger\" id=\"del-" + ID + "\">Delete</button>";
+        code += "                                        <h5  class=\"secondary\">" + "Price : " + item.price + "</h5>";
         code += "                                    </div>";
+       
         //code += "                                    <small class=\"text-muted\">9 mins</small>";
         code += "                                </div>";
+        //code += "                              <a href=\"#\" class=\"stretched-link\">View</a>"
         code += "                            </div>";
         code += "                        </div>";
        // code += "                    </div>";

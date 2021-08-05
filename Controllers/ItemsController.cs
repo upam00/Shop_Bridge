@@ -7,6 +7,8 @@ using System;
 using System.Net;
 using System.Text;
 using Microsoft.AspNetCore.Html;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Shop_Bridge.Controllers
 {
@@ -40,44 +42,50 @@ namespace Shop_Bridge.Controllers
 
         }
 
-        //////[HttpGet("product/{id: length(24)}")]
-        //////public ContentResult GetHtml()
-        //////{
-        //////    string code = "";
-        //////    code += "<!DOCTYPE html>";
-        //////    code += "<html>";
-        //////    code += "<head>";
-        //////    code += "  <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">";
-        //////    code += " <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">";
-        //////    code += "    <link href=\"css/StyleSheet.css\" rel=\"stylesheet\">";
-        //////    code += "  <title>Product Page</title>";
-        //////    code += "</head>";
-        //////    code += "<body>";
-        //////    code += "  <div class='container'>";
-        //////    code += "<div class=\"card mb-3\">";
-        //////    //code += "  <img src=\"data:image/jpg;base64," + item.ImageBase64 + "\" class=\"card-img-top\" alt=\"...\">";
-        //////    code += "  <div class=\"card-body\">";
-        //////    //code += "    <h5 class=\"card-title\">" + item.ItemName + "</h5>";
-        //////   // code += "    <p class=\"card-text\">" + item.About + "</p>";
-        //////    //code += "    <p class=\"card-text\"><small class=\"text-muted\">" + item.Price + "</small></p>";
-        //////    code += "  </div>";
-        //////    code += "</div>";
-        //////    code += "</div>";
-        //////    code += " &lt;script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\" integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\" crossorigin=\"anonymous\">&lt;/script&gt;";
-        //////    code += "    &lt;script>window.jQuery || document.write('&lt;script src=\"js/jquery-slim.min.js\"><\\/script>')&lt;/script&gt;";
-        //////    code += "    &lt;script src=\"js/popper.min.js\">&lt;/script&gt;";
-        //////    code += "    &lt;script src=\"js/bootstrap.min.js\">&lt;/script&gt;";
-        //////    code += "    &lt;script src=\"js/holder.min.js\">&lt;/script&gt;";
-        //////    code += "</body>";
-        //////    code += "</html>";
+        [HttpGet("product/{id:length(24)}")]
+        public HttpResponseMessage GetHtml()
+        {
+            string code = "";
+            code += "<!DOCTYPE html>";
+            code += "<html>";
+            code += "<head>";
+            code += "  <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">";
+            code += " <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">";
+            code += "    <link href=\"css/StyleSheet.css\" rel=\"stylesheet\">";
+            code += "  <title>Product Page</title>";
+            code += "</head>";
+            code += "<body>";
+            code += "  <div class='container'>";
+            code += "<div class=\"card mb-3\">";
+            //code += "  <img src=\"data:image/jpg;base64," + item.ImageBase64 + "\" class=\"card-img-top\" alt=\"...\">";
+            code += "  <div class=\"card-body\">";
+            //code += "    <h5 class=\"card-title\">" + item.ItemName + "</h5>";
+            // code += "    <p class=\"card-text\">" + item.About + "</p>";
+            //code += "    <p class=\"card-text\"><small class=\"text-muted\">" + item.Price + "</small></p>";
+            code += "  </div>";
+            code += "</div>";
+            code += "</div>";
+            code += " &lt;script src=\"https://code.jquery.com/jquery-3.2.1.slim.min.js\" integrity=\"sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN\" crossorigin=\"anonymous\">&lt;/script&gt;";
+            code += "    &lt;script>window.jQuery || document.write('&lt;script src=\"js/jquery-slim.min.js\"><\\/script>')&lt;/script&gt;";
+            code += "    &lt;script src=\"js/popper.min.js\">&lt;/script&gt;";
+            code += "    &lt;script src=\"js/bootstrap.min.js\">&lt;/script&gt;";
+            code += "    &lt;script src=\"js/holder.min.js\">&lt;/script&gt;";
+            code += "</body>";
+            code += "</html>";
 
-        //////    return new ContentResult
-        //////    {
-        //////        ContentType = "text/html",
-        //////        StatusCode = (int)HttpStatusCode.OK,
-        //////        Content = code
-        //////    };
-        //////}
+            var response = new HttpResponseMessage();
+            response.Content = new StringContent(code);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
+        }
+
+        [HttpGet("htmldoc")]
+        [Produces("text/html")]
+        public ActionResult<string> GetHtml2()
+        {
+            string _result = "<b>Return HTML content using Web API method </b>";
+            return _result;
+        }
 
         [HttpPost]
         public ActionResult<Item> Create([FromForm] Uploader Data)

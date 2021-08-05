@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Album example for Bootstrap</title>
+    <title>Shop Bridge</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -25,7 +25,7 @@
 
         <section class="jumbotron text-center">
             <div class="container">
-                <h1 class="jumbotron-heading">Shop Bride</h1>
+                <h1 class="jumbotron-heading">Shop Bridge</h1>
                 <p class="lead text-muted">A simple CRUD application with Asp.Net Core, MongoDB Atlas and Bootstrap Front End.</p>
                 <p>
                     <a href="#" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModal" data-id="NoId" data-ItemName="Name" data-Price=200 data-About="About Item">Add Item</a>
@@ -38,6 +38,10 @@
             <div class="container">
 
                 <div class="row" id="ItemList">
+                    <div class="col-md-12">
+                        <h1 class="text-center">Loading Items...</h1>
+                    </div>
+
                     <!--<div class="col-md-4">
                         <div class="card mb-4 box-shadow">
                             <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
@@ -64,160 +68,219 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap-->
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add/Update Item</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!--<!--<form action="javascript:void(0);" id="addForm" method="POST" onsubmit="addItem()">
+                    <div class="modal fade bd-example-modal-lg" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog  modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Item Name </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row no-gutters bg-light position-relative">
+                                        <div class="col-md-8 mb-md-0 p-md-4">
+                                            <img src="..." id="Image" class="w-100" alt="...">
+                                        </div>
+                                        <div class="col-md-4 position-static p-4 pl-md-0">
+                                            <h5 class="mt-0">About</h5>
+                                            <p id="about" ></p>
+                                            <h5 id="price" class="mt-0"></h5>
+                                        </div>
+                                    </div>
+                                    <div id="name"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add/Update Item</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!--<!--<form action="javascript:void(0);" id="addForm" method="POST" onsubmit="addItem()">
+                                        <input type="text" id="ItemName" placeholder="Name">
+                                        <input type="text" id="About" placeholder="About">
+                                        <input type="number" id="Price" placeholder="350">
+                                        <input type="file" id="ImageFile" placeholder="Add Image" />
+                                        <input type="submit" id="Add">
+                                    </form>-->
+                                    <form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Name</label>
+                                            <input type="hidden" class="form-control" id="edit-Id" typeof="disabled">
+                                            <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">About</label>
+                                            <textarea class="form-control" id="edit-About" placeholder="About"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-check-label" for="exampleCheck1">Price</label>
+                                            <input type="number" class="form-control" id="edit-Price" placeholder="350">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-check-label" for="exampleCheck1">Select Image</label>
+                                            <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+
+
+                                    <!--<form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
+                                        <div class="form-group">
+                                            <input type="hidden" class="form-control" id="edit-ID" typeof="disabled">
+                                            <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
+                                            <input type="text" class="form-control" id="edit-About" placeholder="About">
+                                            <input type="number" class="form-control" id="edit-Price" placeholder="100.24">
+                                            <image id="edit-Image" Name="Old Image"></image>
+                                            <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
+                                            <input type="submit" value="Save Changes">
+                                            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+                                        </div>
+                                    </form>-->
+                                </div>
+                                <!--<!--<div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Send message</button>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <p id="counter"></p>
+
+                    <!----------Previous form---------------->
+                    <!--<h1>To-do CRUD</h1>
+                    <h3>Add</h3>
+                    <form action="javascript:void(0);" id="addForm" method="POST" onsubmit="addItem()">
                         <input type="text" id="ItemName" placeholder="Name">
                         <input type="text" id="About" placeholder="About">
-                        <input type="number" id="Price" placeholder="350">
+                        <input type="number" id="Price" placeholder="100.24">
                         <input type="file" id="ImageFile" placeholder="Add Image" />
                         <input type="submit" id="Add">
-                    </form>-->
-                    <form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Name</label>
-                            <input type="hidden" class="form-control" id="edit-Id" typeof="disabled">
-                            <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
-
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">About</label>
-                            <textarea class="form-control" id="edit-About" placeholder="About"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-check-label" for="exampleCheck1">Price</label>
-                            <input type="number" class="form-control" id="edit-Price" placeholder="350">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-check-label" for="exampleCheck1">Select Image</label>
-                            <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
 
+                    <div id="editForm">
+                        <h3>Edit</h3>
+                        <form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
+                            <div class="form-group">
+                                <input type="hidden" class="form-control" id="edit-ID" typeof="disabled">
+                                <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
+                                <input type="text" class="form-control" id="edit-About" placeholder="About">
+                                <input type="number" class="form-control" id="edit-Price" placeholder="100.24">
+                                <image id="edit-Image" Name="Old Image"></image>
+                                <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
+                                <input type="submit" value="Save Changes">
+                                <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+                            </div>
+                        </form>
+                    </div>
 
-                    <!--<form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="edit-ID" typeof="disabled">
-                            <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
-                            <input type="text" class="form-control" id="edit-About" placeholder="About">
-                            <input type="number" class="form-control" id="edit-Price" placeholder="100.24">
-                            <image id="edit-Image" Name="Old Image"></image>
-                            <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
-                            <input type="submit" value="Save Changes">
-                            <a onclick="closeInput()" aria-label="Close">&#10006;</a>
+                    <p id="counter"></p>
+
+                    <table>
+                        <tr>
+                            <th>Is Complete?</th>
+                            <th>Name</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        <tbody id="todos"></tbody>
+                    </table>
+
+
+
+
+
+                    //-------------------------//-->
+
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p class="float-right">
+                                <a href="#">Back to top</a>
+                            </p>
+                            <p>Developed By &copy; Upam </p>
                         </div>
-                    </form>-->
-                </div>
-                <!--<!--<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                </div>-->
-            </div>
-        </div>
-    </div>
-
-    <p id="counter"></p>
-
-    <!----------Previous form---------------->
-    <!--<h1>To-do CRUD</h1>
-    <h3>Add</h3>
-    <form action="javascript:void(0);" id="addForm" method="POST" onsubmit="addItem()">
-        <input type="text" id="ItemName" placeholder="Name">
-        <input type="text" id="About" placeholder="About">
-        <input type="number" id="Price" placeholder="100.24">
-        <input type="file" id="ImageFile" placeholder="Add Image" />
-        <input type="submit" id="Add">
-    </form>
-
-    <div id="editForm">
-        <h3>Edit</h3>
-        <form id="edit-form" action="javascript:void(0);" onsubmit="updateItem()">
-            <div class="form-group">
-                <input type="hidden" class="form-control" id="edit-ID" typeof="disabled">
-                <input type="text" class="form-control" id="edit-ItemName" placeholder="Name">
-                <input type="text" class="form-control" id="edit-About" placeholder="About">
-                <input type="number" class="form-control" id="edit-Price" placeholder="100.24">
-                <image id="edit-Image" Name="Old Image"></image>
-                <input type="file" class="form-control" name="Choose New Image" id="edit-ImageFile" placeholder="Add Image" />
-                <input type="submit" value="Save Changes">
-                <a onclick="closeInput()" aria-label="Close">&#10006;</a>
-            </div>
-        </form>
-    </div>
-
-    <p id="counter"></p>
-
-    <table>
-        <tr>
-            <th>Is Complete?</th>
-            <th>Name</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tbody id="todos"></tbody>
-    </table>
+                    </footer>
 
 
 
 
 
-    //-------------------------//-->
+                    <!-- Bootstrap core JavaScript
+                    ================================================== -->
+                    <!-- Placed at the end of the document so the pages load faster -->
+                    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+                    <script src="js/popper.min.js"></script>
+                    <script src="js/bootstrap.min.js"></script>
+                    <script src="js/holder.min.js"></script>
+                    <script src="js/site.js" asp-append-version="true"></script>
+                    <script type="text/javascript">
+                        getItems();
+                    </script>
+                    <script>
+                        $('#exampleModal').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget) // Button that triggered the modal
+                            var Id = button.data('id') // Extract info from data-* attributes
+                            var ItemName = button.data('itemname')
+                            console.log(ItemName)
+                            var About = button.data('about')
+                            var Price = button.data('price')
 
-    <footer class="text-muted">
-        <div class="container">
-            <p class="float-right">
-                <a href="#">Back to top</a>
-            </p>
-            <p>Developed By &copy; Upam </p>
-        </div>
-    </footer>
-
-
-
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/holder.min.js"></script>
-    <script src="js/site.js" asp-append-version="true"></script>
-    <script type="text/javascript">
-        getItems();
-    </script>
-    <script>
-        $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var Id = button.data('id') // Extract info from data-* attributes
-            var ItemName = button.data('ItemName')
-            var About = button.data('About')
-            var Price = button.data('Price')
-
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-            var modal = $(this)
-            //modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body #edit-Id').val(Id)
-            modal.find('.modal-body #edit-ItemName').val(ItemName)
-            modal.find('.modal-body #edit-Price').val(About)
-            modal.find('.modal-body #edit-About').val(Price)
+                            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                            var modal = $(this)
+                            //modal.find('.modal-title').text('New message to ' + recipient)
+                            modal.find('.modal-body #edit-Id').val(Id)
+                            modal.find('.modal-body #edit-ItemName').val(ItemName)
+                            modal.find('.modal-body #edit-Price').val(Price)
+                            modal.find('.modal-body #edit-About').val(About)
 
 
 
-        })
+                        })
 
-    </script>
+                        $('#exampleModal2').on('show.bs.modal', function (event) {
+                            var button = $(event.relatedTarget) // Button that triggered the modal
+                            var Id = button.data('id') // Extract info from data-* attributes
+                            var ItemName = button.data('itemname')
+                            Title = "Item Name : " + ItemName
+                            console.log(ItemName)
+                            var About = button.data('about')
+                            var Price = "Price : "
+                            Price += button.data('price')
+
+                            var src = "data: image/jpg;base64,"
+                            src += button.data('image64')
+
+                            console.log(About)
+                            console.log(Price)
+
+                            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                            var modal = $(this)
+                            //modal.find('.modal-title').text('New message to ' + recipient)
+                            modal.find('.modal-title').text(Title) 
+                            //modal.find('.modal-body #name').val(Id)
+
+                            modal.find('.modal-body #price').text(Price)
+                            modal.find('.modal-body #about').text(About)
+                            modal.find('.modal-body #Image').attr("src", src)
+
+
+
+                        })
+
+
+                    </script>
 </body>
 </html>
